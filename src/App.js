@@ -13,6 +13,7 @@ import auth, { db } from './auth/firebase.init';
 function App() {
   const [user, loading, error] = useAuthState(auth);
  
+ 
   return (
     <div className="App">
       <header>
@@ -53,7 +54,7 @@ function SignOut() {
   )
 }
 function ChatRoom() {
-  
+  const [usermsg,setUsermsg]=useState([])
   let messages=[]
   const dummy = useRef();
   const [user] = useAuthState(auth);
@@ -75,7 +76,7 @@ snap.docs.forEach((doc)=>{
   messages.map((msg)=> <ChatMessage key={msg.id} message={msg} />)
 
 })
-console.log(messages)
+setUsermsg(messages)
 
   })
 
@@ -99,13 +100,18 @@ console.log(messages)
 
     setFormValue('');
     dummy.current.scrollIntoView({ behavior: 'smooth' });
+
+    // {usermsg && usermsg.map((msg) =>  <ChatMessage key={msg.id} message={msg} />)}
+
   }
 
   return (<>
       
     <main>
 
-      {messages && messages.map(msg => <ChatMessage key={msg.id} message={msg} />)}
+      {usermsg && usermsg.map(msg => 
+      <ChatMessage key={msg.id} message={msg} />
+      )}
 
       <span ref={dummy}></span>
 
@@ -130,7 +136,7 @@ function ChatMessage(props) {
 
   return (<>
     <div className={`message ${messageClass}`}>
-      <img src={photoURL || 'https://api.adorable.io/avatars/23/abott@adorable.png'} alt="me"/>
+      <img src={'https://images.unsplash.com/photo-1637654003706-b66ba3664457?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=400&q=60'} alt="me"/>
      <ul>
       <li> <p>{text}</p></li>
      </ul>
